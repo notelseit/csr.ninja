@@ -1,39 +1,32 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/786506b491564ea2b6d38328a38064dd)](https://www.codacy.com/app/udlei/csr-ninja)
+# CSR Ninja 2.0
 
-# csr.ninja
-Another CSR Generator.
+Modern PKCS#10 certificate signing request generator. Keys and certificate requests are created **entirely in the browser**, using Web Crypto API and [@peculiar/x509](https://github.com/PeculiarVentures/x509).
 
-### Why Another CSR Generator?
-Every year my clients asked for the KEY used to generate the CSR, now with the csr.ninja they receive it by email!
+## Security model
 
-### How do I install?
+- No PHP backend or email sending.
+- No private key is submitted to any API; requests are signed locally.
+- Output: a PKCS#10 CSR containing CN and DNS SANs, and a PKCS#8 unencrypted private key.
+- HTTPS or localhost is required by Web Crypto.
+- **Keep your downloaded private key secure. Do not email it.**
+- Deploy only the compiled `dist/` folder, served as static content under HTTPS.
+- Self-host the built JS bundle; do not use CDN dependencies at runtime.
+
+## Local development
 
 ```sh
-$ cd /opt
-$ git clone https://github.com/udlei/cst.ninja.git
-$ sudo yum install php56
-$ sudo yum install php-pear
-$ sudo pear install Mail
-$ sudo pear install Net_SMTP
-$ sudo vim /etc/httpd/conf.d/csr.ninja.conf
-
-<VirtualHost *:80>
-    DocumentRoot /opt/csr.ninja/public_html
-    ServerName csr.ninja
-
-    <Directory /opt/csr.ninja/public_html>
-        AllowOverride None
-        Require all granted
-    </Directory>
-</VirtualHost>
-
-$ sudo vim /etc/smtp.conf
-
-{
-    "host": "your-smtp-host",
-    "username": "your-username",
-    "password": "your-password"
-}
-
-$ sudo /etc/init.d/httpd restart
+npm install
+npm run dev
+npm test
+npm run build
 ```
+
+## Production
+
+Build with `npm run build` and publish **only** the `dist/` folder to your static web server. Do not deploy any legacy PHP endpoint. Static hosting works on Nginx, Apache or GitHub Pages.
+
+Use a strict CSP, avoid third-party tracking/scripts, and ensure HTTPS. The private key is unencrypted PKCS#8: place it in an appropriately protected keystore after download.
+
+## History
+
+Replaces the historical PHP 5.6 / PEAR Mail implementation. Original author credit remains in Git history.
