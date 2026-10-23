@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Generate a certificate signing request privately in your browser.">
+  <title>CSR Ninja — Private CSR Generator</title>
+</head>
+<body>
+  <main class="shell">
+    <header><p class="eyebrow">CSR.NINJA · 2.0</p><h1>Certificate requests, <em>without sharing private keys.</em></h1>
+      <p class="intro">Generate a private key and a PKCS#10 certificate signing request locally in your browser. No server-side processing, accounts or email required.</p></header>
+    <section class="card" aria-labelledby="form-heading">
+      <h2 id="form-heading">Certificate details</h2>
+      <form id="csr-form">
+        <label>Common name (CN) <input name="cn" id="cn" placeholder="example.com" maxlength="253" autocomplete="off" required></label>
+        <label>Subject alternative names (SANs) <textarea name="sans" id="sans" rows="3" placeholder="example.com&#10;www.example.com"></textarea><small>One DNS name per line; common name is added automatically.</small></label>
+        <div class="two">
+          <label>Organization (O) <input name="organization" id="organization" maxlength="120" placeholder="Example Ltd"></label>
+          <label>Organizational unit (OU) <input name="unit" id="unit" maxlength="120" placeholder="IT"></label>
+          <label>City / locality (L) <input name="locality" id="locality" maxlength="120"></label>
+          <label>State / province (ST) <input name="state" id="state" maxlength="120"></label>
+          <label>Country (C) <input name="country" id="country" maxlength="2" placeholder="IT" pattern="[A-Za-z]{2}"></label>
+          <label>Key algorithm <select name="algorithm" id="algorithm"><option value="rsa3072">RSA 3072 + SHA-256</option><option value="rsa4096">RSA 4096 + SHA-256</option><option value="ec256">ECDSA P-256 + SHA-256</option></select></label>
+        </div>
+        <p class="notice"><strong>Important:</strong> Your private key will be downloaded unencrypted. Store it securely; never email or publicly share it. A certificate authority needs the CSR only.</p>
+        <button id="generate" type="submit">Generate CSR and private key</button>
+      </form>
+      <p id="status" role="status" aria-live="polite"></p>
+      <div id="results" class="results" hidden>
+        <h2>Generated locally</h2>
+        <p>Download both files now. The private key is not saved by this application.</p>
+        <div class="downloads"><button type="button" id="download-csr">Download .csr</button><button type="button" id="download-key">Download .key</button></div>
+        <label>CSR preview <textarea id="csr-output" rows="9" readonly></textarea></label>
+      </div>
+    </section>
+    <footer>No tracking · No SMTP · No server key storage · <a href="https://github.com/notelseit/csr.ninja">Source code</a></footer>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
