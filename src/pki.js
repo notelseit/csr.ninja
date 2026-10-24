@@ -37,7 +37,7 @@ export async function createCSR(fields) {
   const keys = await crypto.subtle.generateKey(algorithm, true, ["sign", "verify"]);
   const csr = await x509.Pkcs10CertificateRequestGenerator.create({
     name, keys, signingAlgorithm: algorithm,
-    extensions: [new x509.SubjectAlternativeNamesExtension(sans.map(n => ({ type: "dns", value: n })))]
+    extensions: [new x509.SubjectAlternativeNameExtension(sans.map(n => ({ type: "dns", value: n })))]
   });
   const pkcs8 = await crypto.subtle.exportKey("pkcs8", keys.privateKey);
   return { csr: csr.toString("pem"), key: pem("PRIVATE KEY", pkcs8), commonName: fields.cn.toLowerCase() };
