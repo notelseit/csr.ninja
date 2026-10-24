@@ -1,4 +1,4 @@
-# CSR Ninja 2.0
+# CSR NOTELSEIT 2.0
 
 Modern PKCS#10 certificate signing request generator. Keys and certificate requests are created **entirely in the browser**, using Web Crypto API and [@peculiar/x509](https://github.com/PeculiarVentures/x509).
 
