@@ -31,6 +31,7 @@ form.addEventListener("submit", async event => {
     results.hidden = false;
     status.textContent = "Successfully generated in your browser. Download both files.";
   } catch (error) {
+    console.error("CSR generation failed", { name: error.name, message: error.message, stack: error.stack });
     status.textContent = `Unable to generate CSR: ${error.message}`;
   } finally {
     submit.disabled = false;
